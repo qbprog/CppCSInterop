@@ -10,8 +10,10 @@ add_executable(CppTestEXE main.cpp compat.manifest)
 target_link_libraries(CppTestEXE PRIVATE CSComponentClient)
 
 # forces the winrtact library
-target_link_libraries(CppTestEXE PRIVATE winrtact)
-target_link_options(CppTestEXE PRIVATE "/INCLUDE:winrtact_Initialize")
+IF(TARGET winrtact)
+	target_link_libraries(CppTestEXE PRIVATE winrtact)
+	target_link_options(CppTestEXE PRIVATE "/INCLUDE:winrtact_Initialize")
+endif()
 
 #copies the targets to the destination directory
 add_custom_command(TARGET CppTestEXE POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distrib/)

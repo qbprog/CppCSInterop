@@ -5,7 +5,6 @@ project(CppCSInterop)
 set(CMAKE_SYSTEM_VERSION 10.0.26100.0)
 
 # Copy the build workarounds
-configure_file("${CMAKE_SOURCE_DIR}/Directory.Build.props" "${CMAKE_BINARY_DIR}/Directory.Build.props")
 configure_file("${CMAKE_SOURCE_DIR}/Directory.Build.targets" "${CMAKE_BINARY_DIR}/Directory.Build.targets")
 
 # Downloads the nuget command line tool
@@ -57,8 +56,10 @@ add_subdirectory(CSComponentClient)
 add_subdirectory(CppTestEXE)
 
 # Support for Windows 1607 using the detours and UndocketRegFreeWinRT
-add_subdirectory(detours)
-add_subdirectory(UndockedRegFreeWinRT)
+IF(FALSE)
+	add_subdirectory(detours)
+	add_subdirectory(UndockedRegFreeWinRT)
+ENDIF()
 
 
 
