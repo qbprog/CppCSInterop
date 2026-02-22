@@ -11,14 +11,11 @@ int32_t __stdcall custom_winrt_activation_handler(void* classId, winrt::guid con
     winrt::hstring name; winrt::copy_from_abi(name, classId);
 
     /* Note : this code is mostly copied from base.h and customized to allow an additional probing of the DLL */
-
-    static int32_t(__stdcall* handler)(void* classId, winrt::guid const& iid, void** factory) noexcept;
-    impl::load_runtime_function(L"combase.dll", "RoGetActivationFactory", handler, fallback_RoGetActivationFactory);
-    hresult hr = handler(*(void**)(&name), guid, result);
+    hresult hr = WINRT_IMPL_RoGetActivationFactory(*(void**)(&name), guid, result);
 
     if (hr == impl::error_not_initialized)
     {
-        auto usage = reinterpret_cast<int32_t(__stdcall*)(void** cookie) noexcept>(WINRT_IMPL_GetProcAddress(WINRT_IMPL_LoadLibraryW(L"combase.dll"), "CoIncrementMTAUsage"));
+        auto usage = reinterpret_cast<int32_t(__stdcall*)(void** cookie) noexcept>(WINRT_IMPL_GetProcAddress(load_library(L"combase.dll"), "CoIncrementMTAUsage"));
 
         if (!usage)
         {
@@ -27,7 +24,7 @@ int32_t __stdcall custom_winrt_activation_handler(void* classId, winrt::guid con
 
         void* cookie;
         usage(&cookie);
-        hr = handler(*(void**)(&name), guid, result);
+        hr = WINRT_IMPL_RoGetActivationFactory(*(void**)(&name), guid, result);
     }
 
     if (hr == 0)
@@ -45,7 +42,7 @@ int32_t __stdcall custom_winrt_activation_handler(void* classId, winrt::guid con
     {
         path.resize(count);
         path += L".dll";
-        library_handle library(WINRT_IMPL_LoadLibraryW(path.c_str()));
+        library_handle library(load_library(path.c_str()));
         path.resize(path.size() - 4);
 
         bool fail = false;
@@ -65,7 +62,7 @@ int32_t __stdcall custom_winrt_activation_handler(void* classId, winrt::guid con
         if (fail)
         {
             path += L".Host.dll";
-            library = library_handle(WINRT_IMPL_LoadLibraryW(path.c_str()));
+            library = library_handle(load_library(path.c_str()));
             path.resize(path.size() - 4 - 5);
 
             if (!library)
@@ -99,5 +96,6 @@ int32_t __stdcall custom_winrt_activation_handler(void* classId, winrt::guid con
     }
 
     WINRT_IMPL_SetErrorInfo(0, error_info.get());
+
     return hr;
 }

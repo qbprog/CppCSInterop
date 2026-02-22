@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CSTestEXE": {
+      "commandName": "Project",
+      "nativeDebugging": true,
+      "sqlDebugging": false
+    }
+  }
+}

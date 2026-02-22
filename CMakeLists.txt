@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(CppCSInterop)
 
 # Latest SDK, customize it
-set(CMAKE_SYSTEM_VERSION 10.0.22621.0)
+set(CMAKE_SYSTEM_VERSION 10.0.26100.0)
 
 # Copy the build workarounds
 configure_file("${CMAKE_SOURCE_DIR}/Directory.Build.props" "${CMAKE_BINARY_DIR}/Directory.Build.props")
@@ -29,8 +29,8 @@ endif()
 
 # Downloads the required cpp nuget packages
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/packages/")
-   exec_program(${NUGET_EXE} ARGS install "Microsoft.Windows.CppWinRT" -Version 2.0.220912.1 -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages)
-   exec_program(${NUGET_EXE} ARGS install "Microsoft.Windows.ImplementationLibrary" -Version 1.0.200519.2 -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages)
+   exec_program(${NUGET_EXE} ARGS install "Microsoft.Windows.CppWinRT" -Version 2.0.250303.1 -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages)
+   exec_program(${NUGET_EXE} ARGS install "Microsoft.Windows.ImplementationLibrary" -Version 1.0.260126.7 -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/packages)
 endif()
 
 # Post-configure event: copy the c++ redist to our distrib directory

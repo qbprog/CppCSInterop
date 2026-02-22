@@ -30,7 +30,7 @@ target_link_libraries(CppComponent PRIVATE ${CMAKE_BINARY_DIR}/packages/Microsof
 set_target_properties(CppComponent PROPERTIES VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION 10.0.14393.0)
 
 set_target_properties(CppComponent PROPERTIES 
-  CXX_STANDARD 17
+  CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF
   # ----- C++/WinRT, Windows App SDK, and WinUI stuff starts here -----
